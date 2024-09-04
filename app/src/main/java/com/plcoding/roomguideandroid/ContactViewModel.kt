@@ -11,7 +11,9 @@ class ContactViewModel(
     private val dao: ContactDao
 ): ViewModel() {
 
+    //depending on sorttype query is sent( automatically)
     private val _sortType = MutableStateFlow(SortType.FIRST_NAME)
+    //not used directly, returns retrieved data (to display)
     private val _contacts = _sortType
         .flatMapLatest { sortType ->
             when(sortType) {
@@ -21,8 +23,11 @@ class ContactViewModel(
             }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-
+        
+    //ContactState is screen state
     private val _state = MutableStateFlow(ContactState())
+
+    //combines 3 flow into 1 and captures emission
     val state = combine(_state, _sortType, _contacts) { state, sortType, contacts ->
         state.copy(
             contacts = contacts,
