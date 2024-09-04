@@ -20,6 +20,7 @@ import com.plcoding.roomguideandroid.ui.theme.RoomGuideAndroidTheme
 
 class MainActivity : ComponentActivity() {
 
+    //creating room database
     private val db by lazy {
         Room.databaseBuilder(
             applicationContext,
@@ -27,6 +28,7 @@ class MainActivity : ComponentActivity() {
             "contacts.db"
         ).build()
     }
+    //creating viewmodel with database
     private val viewModel by viewModels<ContactViewModel>(
         factoryProducer = {
             object : ViewModelProvider.Factory {
